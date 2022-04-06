@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,19 +36,19 @@ namespace New_webApi.Controllers
             {
                 obj.status = "Fail";
                 obj.Message = "name/Emp_ID/Designation/DOB/Address Code cannot be Empty";
-                // Logger.Log("Response", JsonConvert.SerializeObject(obj));
+               
 
                 return "Failed";
             }
             else
             {
-                //General.DML($"Insert into wave(`wave_id`,`status`) values ('{employees.WaveID}','PENDING')");
+                
                 string query = "insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values('" + employees.Name + "','" + employees.Emp_ID + "','" + employees.Designation + "','" + employees.DOB + "','" + employees.Address + "')";
                 //"insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values ('{employees.Name}','{employees.Emp_ID}','{employees.Designation}','{employees.DOB}','{employees.Address}','ADDED')");
                 General.DML(query);
                 obj.status = "Success";
                 obj.Message = "Data Added";
-                return "Sucess";
+                return "Successfully Data Added";
             }
         }
 
@@ -83,6 +84,7 @@ namespace New_webApi.Controllers
 
                 // string query = ("select * from emp_master");
                 //General.DML(query);
+
                 string output = JsonConvert.SerializeObject(dt);
                 return output;
             }
@@ -92,26 +94,58 @@ namespace New_webApi.Controllers
             }
         }
 
-        [HttpDelete]
-        
-        public string DeleteEmployeeData(string Emp_id)
+        [HttpPost]
+      //  [Route("api/Emp/Delete/{Emp_ID}")]
+        public string DeleteEmployeeData(string Emp_ID )    
         {
+            string query="";
             dynamic obj = new ExpandoObject();
             try
             {
-                string query = "Delete from emp_master WHERE Id = " + Emp_id.ToString(); 
+                //int Emp_ID = 5;
+                query = "Delete * from Emp_master WHERE Emp_ID = "+ Emp_ID.ToString();
+                //Console.WriteLine(query);
                 General.DML(query);
                 obj.status = "Success";
-                obj.Message = "Data Added";
-                
+                obj.Message = "Data Deleted";
+
             }
             catch (Exception ex)
             {
-                return "failure";
+               
+               
+                //return Json("failure");
             }
-            return obj;
+
+            return query; // Json(obj,JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        
+        public string UpdateEmployeeData( Employees employees) 
+        {
+            dynamic obj = new ExpandoObject();
+
+            if (string.IsNullOrEmpty(employees.Name) || string.IsNullOrEmpty(employees.Emp_ID) || string.IsNullOrEmpty(employees.Designation) || string.IsNullOrEmpty(employees.DOB) || string.IsNullOrEmpty(employees.Address))
+            {
+                obj.status = "Fail";
+                obj.Message = "name/Emp_ID/Designation/DOB/Address Code cannot be Empty";
+                
+
+                return "Failed";
+            }
+            else
+            {
+                //General.DML($"Insert into wave(`wave_id`,`status`) values ('{employees.WaveID}','PENDING')");
+                string query = "UPDATE Emp_master SET Name = '" + employees.Name + "',Designation ='" + employees.Designation + "',DOB ='" + employees.DOB + "',Address ='" + employees.Address + "' WHERE Emp_ID = '" + employees.Emp_ID + "' ";
+                //"insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values ('{employees.Name}','{employees.Emp_ID}','{employees.Designation}','{employees.DOB}','{employees.Address}','ADDED')");
+                General.DML(query);
+                obj.status = "Success";
+                obj.Message = "Data Added";
+                return "Data Updated";
+
+            }
+        }
       
     
     
