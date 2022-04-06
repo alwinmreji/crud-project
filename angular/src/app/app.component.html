@@ -1,0 +1,24 @@
+<h1>Employee Data</h1>
+<form #simpleForm="ngForm" (ngSubmit)="getValues(simpleForm.value)">
+ <input type="text" [(ngModel)]="employeeObj.user" name="user" placeholder="Enter Your Name">
+ <br><br>
+
+ <input type="date" [(ngModel)]="employeeObj.dob" name="dob" placeholder="Enter Your DOB">
+ <br><br>
+
+ <input type="text" [(ngModel)]="employeeObj.emp_id" name="Emp_id" placeholder="EMP ID">
+ <br><br>
+
+ <input type="text" [(ngModel)]="employeeObj.desig" name="Designation " placeholder="Designation">
+ <br><br>
+
+ <input type="text" [(ngModel)]="employeeObj.salary" name="Salary" placeholder="Salary">
+ <br><br>
+
+ <input type="text" [(ngModel)]="employeeObj.address" name="Address" placeholder="Address">
+ <br><br>
+
+  <!-- Submit button is for POST API -->
+ <button type="submit" class="btn btn-link">Submit</button>
+ <button  class="btn btn-link" (click)="resetForm()">Clear</button>
+</form>
