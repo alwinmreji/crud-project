@@ -52,6 +52,11 @@ namespace New_webApi.Models
             set;
         }
 
+        public string Salary
+        {
+            get;
+            set;
+        }
 
     }
 }

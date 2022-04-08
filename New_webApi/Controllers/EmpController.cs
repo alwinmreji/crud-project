@@ -32,18 +32,18 @@ namespace New_webApi.Controllers
         {
             dynamic obj = new ExpandoObject();
 
-            if (string.IsNullOrEmpty(employees.Name) || string.IsNullOrEmpty(employees.Emp_ID) || string.IsNullOrEmpty(employees.Designation) || string.IsNullOrEmpty(employees.DOB) || string.IsNullOrEmpty(employees.Address))
+            if (string.IsNullOrEmpty(employees.Name) || string.IsNullOrEmpty(employees.Emp_ID) || string.IsNullOrEmpty(employees.Designation) || string.IsNullOrEmpty(employees.DOB) || string.IsNullOrEmpty(employees.Address) || string.IsNullOrEmpty(employees.Salary))
             {
                 obj.status = "Fail";
                 obj.Message = "name/Emp_ID/Designation/DOB/Address Code cannot be Empty";
                
 
-                return "Failed";
+                return obj;
             }
             else
             {
                 
-                string query = "insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values('" + employees.Name + "','" + employees.Emp_ID + "','" + employees.Designation + "','" + employees.DOB + "','" + employees.Address + "')";
+                string query = "insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`,`Salary`)values('" + employees.Name + "','" + employees.Emp_ID + "','" + employees.Designation + "','" + employees.DOB + "','" + employees.Address + "','" + employees.Salary + "')";
                 //"insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values ('{employees.Name}','{employees.Emp_ID}','{employees.Designation}','{employees.DOB}','{employees.Address}','ADDED')");
                 General.DML(query);
                 obj.status = "Success";
@@ -95,30 +95,32 @@ namespace New_webApi.Controllers
         }
 
         [HttpPost]
-      //  [Route("api/Emp/Delete/{Emp_ID}")]
-        public string DeleteEmployeeData(string Emp_ID )    
+
+     
+        public JsonResult DeleteEmployeeData(string Emp_ID )    
         {
-            string query="";
-            dynamic obj = new ExpandoObject();
+                                                                                //please send input in formdata not in json format
+          
             try
             {
-                //int Emp_ID = 5;
-                query = "Delete * from Emp_master WHERE Emp_ID = "+ Emp_ID.ToString();
+                
+                string query = "Delete from Emp_master WHERE Emp_ID = " + Emp_ID.ToString();
                 //Console.WriteLine(query);
                 General.DML(query);
-                obj.status = "Success";
-                obj.Message = "Data Deleted";
+              
 
             }
             catch (Exception ex)
             {
                
                
-                //return Json("failure");
+               return Json("failure");
             }
+            return Json("Success DELETED");
 
-            return query; // Json(obj,JsonRequestBehavior.AllowGet);
+           // return Json(obj,JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         
@@ -126,7 +128,7 @@ namespace New_webApi.Controllers
         {
             dynamic obj = new ExpandoObject();
 
-            if (string.IsNullOrEmpty(employees.Name) || string.IsNullOrEmpty(employees.Emp_ID) || string.IsNullOrEmpty(employees.Designation) || string.IsNullOrEmpty(employees.DOB) || string.IsNullOrEmpty(employees.Address))
+            if (string.IsNullOrEmpty(employees.Name) || string.IsNullOrEmpty(employees.Emp_ID) || string.IsNullOrEmpty(employees.Designation) || string.IsNullOrEmpty(employees.DOB) || string.IsNullOrEmpty(employees.Address) || string.IsNullOrEmpty(employees.Salary))
             {
                 obj.status = "Fail";
                 obj.Message = "name/Emp_ID/Designation/DOB/Address Code cannot be Empty";
@@ -137,7 +139,7 @@ namespace New_webApi.Controllers
             else
             {
                 //General.DML($"Insert into wave(`wave_id`,`status`) values ('{employees.WaveID}','PENDING')");
-                string query = "UPDATE Emp_master SET Name = '" + employees.Name + "',Designation ='" + employees.Designation + "',DOB ='" + employees.DOB + "',Address ='" + employees.Address + "' WHERE Emp_ID = '" + employees.Emp_ID + "' ";
+                string query = "UPDATE Emp_master SET Name = '" + employees.Name + "',Designation ='" + employees.Designation + "',DOB ='" + employees.DOB + "',Address ='" + employees.Address + "',Salary ='" + employees.Salary + "' WHERE Emp_ID = '" + employees.Emp_ID + "' ";
                 //"insert into Emp_master(`Name`,`Emp_ID`,`Designation`,`DOB`,`Address`)values ('{employees.Name}','{employees.Emp_ID}','{employees.Designation}','{employees.DOB}','{employees.Address}','ADDED')");
                 General.DML(query);
                 obj.status = "Success";
